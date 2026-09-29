@@ -1,0 +1,13 @@
+# Raw and processed data: never commit (program rules, and files are too large)
+csv/
+output/
+*.csv
+
+# IDX's FTP/extraction scripts: contain credentials, not our code
+py/
+
+# Editor settings
+.vscode/
+
+# Python cache
+__pycache__/
