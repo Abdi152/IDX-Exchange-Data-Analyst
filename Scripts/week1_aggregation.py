@@ -1,3 +1,9 @@
+# Week 1: Aggregate monthly CRMLS Sold and Listing files (Jan 2024 – Apr 2026)
+# 1. Concatenate all monthly files into one Sold and one Listing dataset
+# 2. Filter both to PropertyType == 'Residential'
+# 3. Save as new CSVs, recording row counts at each step
+
+
 #  Import necessary libraries
 
 import pandas as pd # Loads Pandas library
@@ -5,7 +11,7 @@ import os
 
 DATA_DIR = r"C:\Users\abdif\IDX_Data\csv" # Stores folder path as a variable
 
-files = os.listdir(DATA_DIR) # Asks Os module to list every file and folder name in directory
+files = os.listdir(DATA_DIR) # Asks os module to list every file and folder name in directory
 print(files)
 
 
@@ -21,8 +27,8 @@ print(f"Listing files: {len(listing_path)}") # Prints the number of listing file
 
 #  Read and concatenate sold datasets
 
-sold_frames = [] # Initializes an empty list to store the number of dataframes in each sold dataset
-sold_frames_before = 0 
+sold_frames = [] # Empty list to hold one DataFrame per monthly Sold file
+sold_frames_before = 0 # Running total of rows across all Sold files (before concat)
 
 for path in sold_path:
     df = pd.read_csv(path, low_memory = False) # Loads each sold dataset into a dataframe
@@ -34,8 +40,8 @@ sold = pd.concat(sold_frames, ignore_index = True) # Concatenates all dataframes
 print(f"Sold rows before concat (sum of all files): {sold_frames_before}") # Prints the total number of rows in all sold datasets before concatenation
 print(f"Sold rows after concat: {len(sold)}") # Prints the number of rows in the concatenated sold dataframe
 
-listing_frames = [] # Initializes an empty list to store the number of dataframes in each listing dataset
-listing_frames_before = 0 
+listing_frames = [] # Empty list to hold one DataFrame per monthly Listing file
+listing_frames_before = 0  
 
 for path in listing_path:
     df = pd.read_csv(path, low_memory = False) # Loads each listing dataset into a dataframe
@@ -64,7 +70,7 @@ print(f"Listing rows after Residential filter: {len(listing_res):,}")
 
 # Row counts:
 #   Sold: 615,707 rows before concat, 615,707 after concat, and 414,054 after Residential filter
-#   Listing: 860,898 rows before concat, 860,898 after concat, and 547,162 after Residential filter
+#   Listing: 860,898 rows before concat, 860,898 after concat, and 547,162 after Residential filter 
 
 # Save
 
@@ -78,3 +84,4 @@ print(f"Saved both files to {OUTPUT_DIR}")
 
 print(len(pd.read_csv(os.path.join(OUTPUT_DIR, "sold_residential_202401_202604.csv"), low_memory=False)))
 print(len(pd.read_csv(os.path.join(OUTPUT_DIR, "listing_residential_202401_202604.csv"), low_memory=False)))
+
